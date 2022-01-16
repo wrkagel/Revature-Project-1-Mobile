@@ -26,5 +26,3 @@ export default function App() {
     </View>
   );
 }
-
-export const backendAddress = 'https://wk-revature-vm.eastus.cloudapp.azure.com'
