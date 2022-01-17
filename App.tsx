@@ -9,10 +9,13 @@ import LogoutButton from './components/logout-button';
 import ManagedView from './components/managed-view';
 import ReimbursementViewList from './components/reimbursement-list-view';
 import ReimbursementView from './components/reimbursement-view';
+import ReimbursementItem from './models/reimbursement-item'
 
 export default function App() {
 
   const [managerId, setManagerId] = useState<string>("");
+  const [reimbursementList, setReimbursementList] = useState<ReimbursementItem[]>([]);
+  const [listIndex, setListIndex] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
@@ -32,9 +35,15 @@ export default function App() {
         <NavigationContainer>
           <LogoutButton setManagerId={setManagerId}/>
           <Stack.Navigator initialRouteName='Managed' >
-            <Stack.Screen name={"Managed"} component={ManagedView}/>
-            <Stack.Screen name={"ReimbursementList"} component={ReimbursementViewList}/>
-            <Stack.Screen name={"Reimbursement"} component={ReimbursementView}/>
+            <Stack.Screen name={"Managed"}>
+              {(props) => <ManagedView {...props} managerId={managerId}/>}
+            </Stack.Screen>
+            <Stack.Screen name={"ReimbursementList"}>
+              {(props) => <ReimbursementViewList {...props} setReimbursementList={setReimbursementList} setListIndex={setListIndex}/>}
+            </Stack.Screen>
+            <Stack.Screen name={"Reimbursement"}>
+              {(props) => <ReimbursementView {...props} reimbursement={reimbursementList[listIndex]}/>}
+            </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>}
       <StatusBar/>

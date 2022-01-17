@@ -3,11 +3,9 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import ReimbursementItem, { ReimbursementStatus } from "../models/reimbursement-item";
 
 
-export default function ReimbursementView() {
+export default function ReimbursementView(props:{reimbursement:ReimbursementItem}) {
 
-
-
-    const {id, employeeId, type, desc, amount, date, status} = testItem;
+    const {id, employeeId, type, desc, amount, date, status} = props.reimbursement;
 
     const isPending = status === ReimbursementStatus.pending;
 
@@ -53,13 +51,3 @@ const textStyle = StyleSheet.create({
         fontSize:15
     }
 });
-
-const testItem:ReimbursementItem = {
-    id:"test-test-test-test-test", 
-    employeeId:"test-test-test-test-test",
-    type:"Testing",
-    desc:"This is for testing.",
-    amount:1000000.99,
-    date:Date.now(),
-    status:ReimbursementStatus.pending
-  };

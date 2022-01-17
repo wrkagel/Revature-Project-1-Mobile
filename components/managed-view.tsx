@@ -1,15 +1,42 @@
-import { ParamListBase, Route } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, View } from "react-native";
 import Employee from "../models/employee";
 import EmployeeView from "./employee-view";
+import { backendAddress } from "./login-view";
 
 
-export default function ManagedView(props:{navigation: any}) {
+export default function ManagedView(props:{navigation: any, route:any, managerId:string}) {
 
-    const navigation = props.navigation;
+    const {navigation, managerId:id} = props;
+
+    const [employees, setEmployees] = useState<Employee[]>();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                console.log(id);
+                const response = await axios.get(`${backendAddress}/employees/managed/${id}`)
+                console.log(response);
+                if(!response || response.status !== 200) {
+                    alert('Failure retrieving list of managed employees from server.')
+                    return;
+                }
+                const returnedEmployees = response.data;
+                setEmployees(returnedEmployees)                
+            } catch (error) {
+                console.log(error);
+                if(error instanceof Error && error.message.includes("404")) {
+                    alert(".");
+                } else {
+                    alert('There was an error communicating with the server.');
+                }
+            }
+        })()
+    }, []);
 
     function navigateToReimburseList(id:string) {
+        console.log(id);
         navigation.push('ReimbursementList', {id});
     }
 
@@ -19,10 +46,6 @@ export default function ManagedView(props:{navigation: any}) {
         </Pressable>)}/>
     )
 }
-
-const employees:Employee[] = [{
-    fname:"Harvey", mname:"The", lname:"ghost", id:"test-test-test-test"
-    }, {fname:"Casper", lname:"The Ghost", id:"test-test-test-test-test"}];
 
 const styles = StyleSheet.create({
     listItem:{
