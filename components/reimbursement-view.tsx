@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import ReimbursementItem, { ReimbursementStatus } from "../models/reimbursement-item";
 
 
-function ReimbursementView() {
+export default function ReimbursementView() {
 
 
 
@@ -53,8 +53,6 @@ const textStyle = StyleSheet.create({
         fontSize:15
     }
 });
-
-export default React.memo(ReimbursementView)
 
 const testItem:ReimbursementItem = {
     id:"test-test-test-test-test", 

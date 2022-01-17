@@ -3,11 +3,11 @@ import React from "react";
 import { Button, View } from "react-native";
 
 
-export default function LogoutButton(props:{setIsAuthenticated:Function}) {
+export default function LogoutButton(props:{setManagerId:Function}) {
 
     async function logout() {
         await AsyncStorageLib.clear();
-        props.setIsAuthenticated(false);
+        props.setManagerId("");
     }
 
     return (<View>

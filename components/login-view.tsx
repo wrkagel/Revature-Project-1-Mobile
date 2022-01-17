@@ -2,14 +2,13 @@ import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, TextInput, View } from "react-native";
+import Employee from "../models/employee";
 
 
-export default function LoginView(props:{setIsAuthenticated:Function}) {
+export default function LoginView(props:{setManagerId:Function}) {
 
     const [nameInput, setNameInput] = useState<string>("");
     const [passInput, setPassInput] = useState<string>("");
-
-    //const testUser = ['username', 'password'];
 
     async function login() {
         if(!nameInput || !passInput) {
@@ -17,13 +16,14 @@ export default function LoginView(props:{setIsAuthenticated:Function}) {
             return;
         }
         try {
-            const response = await axios.patch(`${backendAddress}/loginMobile`, {user:nameInput, pass:passInput});
+            const response = await axios.patch<Employee>(`${backendAddress}/loginMobile`, {user:nameInput, pass:passInput});
             if (response.status !== 200) {
-                alert(String(await response.data));
+                alert(String(response.data));
                 return;
             }
-            await AsyncStorageLib.setItem("isAuthenticated", "true");
-            props.setIsAuthenticated(true);
+            const manager:Employee = response.data;
+            await AsyncStorageLib.setItem("managerId", manager.id);
+            props.setManagerId(manager.id);
         } catch (error) {
             console.log(error);
             if(error instanceof Error && error.message.includes("404")) {

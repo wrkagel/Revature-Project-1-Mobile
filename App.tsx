@@ -12,14 +12,14 @@ import ReimbursementView from './components/reimbursement-view';
 
 export default function App() {
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [managerId, setManagerId] = useState<string>("");
 
   useEffect(() => {
     (async () => {
-      const storageAuthentication = await AsyncStorageLib.getItem("isAuthenticated");
-      if(storageAuthentication) setIsAuthenticated(true);
+      const storedId = await AsyncStorageLib.getItem("managerId");
+      setManagerId(storedId ?? "");
+      console.log(managerId);
     })()
-    setIsAuthenticated(true);
   }, []);
 
   const Stack = createNativeStackNavigator();
@@ -27,16 +27,16 @@ export default function App() {
   return (
     <View style={{flex:1, display:"flex"}}>
       <Text style={{fontSize:30, fontWeight:"bold"}}>Reimbursement System</Text>
-      {!isAuthenticated ? 
-        <LoginView setIsAuthenticated={setIsAuthenticated}/> :
+      {!Boolean(managerId) ? 
+        <LoginView setManagerId={setManagerId}/> :
         <NavigationContainer>
-          <LogoutButton setIsAuthenticated={setIsAuthenticated}/>
-          <Stack.Navigator initialRouteName='Managed'>
-            <Stack.Screen name={"Managed"} component={ManagedView} />
+          <LogoutButton setManagerId={setManagerId}/>
+          <Stack.Navigator initialRouteName='Managed' >
+            <Stack.Screen name={"Managed"} component={ManagedView}/>
             <Stack.Screen name={"ReimbursementList"} component={ReimbursementViewList}/>
             <Stack.Screen name={"Reimbursement"} component={ReimbursementView}/>
-        </Stack.Navigator>
-      </NavigationContainer>}
+          </Stack.Navigator>
+        </NavigationContainer>}
       <StatusBar/>
     </View>
   );

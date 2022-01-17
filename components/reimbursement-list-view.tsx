@@ -1,16 +1,16 @@
-import { useNavigation } from "@react-navigation/native";
 import { Button, View } from "react-native";
 
 
-export default function ReimbursementViewList(props: { navigation: any}) {
+export default function ReimbursementViewList(props:{navigation:any, route: any}) {
 
-    const navigation = props.navigation;
+    const {navigation, route} = props;
+    const {id} = route.params;
 
     function navigateToReimbursement() {
         navigation.push('Reimbursement');
     }
 
     return (<View>
-        <Button title="GoToReimbursement" onPress={navigateToReimbursement} />
+        <Button title={id.toLowerCase()} onPress={navigateToReimbursement} />
     </View>)
 }
