@@ -1,14 +1,14 @@
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Component, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { Text, View } from 'react-native';
 import LoginView from './components/login-view';
 import LogoutButton from './components/logout-button';
+import ManagedView from './components/managed-view';
 import ReimbursementViewList from './components/reimbursement-list-view';
 import ReimbursementView from './components/reimbursement-view';
-import ReimbursementItem, { ReimbursementStatus } from './models/reimbursement-item';
 
 export default function App() {
 
@@ -31,7 +31,8 @@ export default function App() {
         <LoginView setIsAuthenticated={setIsAuthenticated}/> :
         <NavigationContainer>
           <LogoutButton setIsAuthenticated={setIsAuthenticated}/>
-          <Stack.Navigator initialRouteName='ReimbursementList'>
+          <Stack.Navigator initialRouteName='Managed'>
+            <Stack.Screen name={"Managed"} component={ManagedView} />
             <Stack.Screen name={"ReimbursementList"} component={ReimbursementViewList}/>
             <Stack.Screen name={"Reimbursement"} component={ReimbursementView}/>
         </Stack.Navigator>
