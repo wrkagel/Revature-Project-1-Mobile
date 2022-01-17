@@ -1,14 +1,17 @@
+import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import ReimbursementItem, { ReimbursementStatus } from "../models/reimbursement-item";
 
 
-export default function ReimbursementView(props:ReimbursementItem) {
+function ReimbursementView() {
 
-    const {id, employeeId, type, desc, amount, date, status} = props;
+
+
+    const {id, employeeId, type, desc, amount, date, status} = testItem;
 
     const isPending = status === ReimbursementStatus.pending;
 
-    return (<View style={{flex:1, flexDirection:"row"}}>
+    return (<View style={{flex:1, flexDirection:"row", justifyContent:"space-evenly"}}>
         <View style={{flex:0.4}}>
             <Text style={textStyle.th}>Type</Text>
             <Text style={textStyle.th}>Description</Text>
@@ -28,8 +31,8 @@ export default function ReimbursementView(props:ReimbursementItem) {
             <Text style={textStyle.td}>{id}</Text>
             <Text style={textStyle.td}>{employeeId}</Text>
             {isPending && <View style={{flex:1}}>
-                <Button title="Approve" onPress={() => {}}/>
-                <Button title="Deny" onPress={() =>{}}/>
+                <View style={{flex:0.5, height:"100%", width:"100%"}}><Button title="Approve" onPress={() => {}}/></View>
+                <View style={{flex:0.5}}><Button title="Deny" onPress={() =>{}}/></View>
             </View>}
         </View>
     </View>)
@@ -50,3 +53,15 @@ const textStyle = StyleSheet.create({
         fontSize:15
     }
 });
+
+export default React.memo(ReimbursementView)
+
+const testItem:ReimbursementItem = {
+    id:"test-test-test-test-test", 
+    employeeId:"test-test-test-test-test",
+    type:"Testing",
+    desc:"This is for testing.",
+    amount:1000000.99,
+    date:Date.now(),
+    status:ReimbursementStatus.pending
+  };
