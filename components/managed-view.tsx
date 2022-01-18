@@ -15,9 +15,7 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
     useEffect(() => {
         (async () => {
             try {
-                console.log(id);
                 const response = await axios.get(`${backendAddress}/employees/managed/${id}`)
-                console.log(response);
                 if(!response || response.status !== 200) {
                     alert('Failure retrieving list of managed employees from server.')
                     return;
@@ -26,17 +24,12 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
                 setEmployees(returnedEmployees)                
             } catch (error) {
                 console.log(error);
-                if(error instanceof Error && error.message.includes("404")) {
-                    alert(".");
-                } else {
-                    alert('There was an error communicating with the server.');
-                }
+                alert('There was an error communication with the server.');
             }
         })()
     }, []);
 
     function navigateToReimburseList(id:string) {
-        console.log(id);
         navigation.push('ReimbursementList', {id});
     }
 

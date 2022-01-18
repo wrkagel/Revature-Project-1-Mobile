@@ -1,13 +1,34 @@
+import { NavigationContainer } from "@react-navigation/native";
+import axios from "axios";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import ReimbursementItem, { ReimbursementStatus } from "../models/reimbursement-item";
+import { backendAddress } from "./login-view";
 
 
-export default function ReimbursementView(props:{reimbursement:ReimbursementItem}) {
+export default function ReimbursementView(props:{navigation:any, reimbursement:ReimbursementItem}) {
 
+    const {navigation} = props;
     const {id, employeeId, type, desc, amount, date, status} = props.reimbursement;
 
     const isPending = status === ReimbursementStatus.pending;
+
+    async function updateStatus(newStatus:ReimbursementStatus) {
+        try {
+            const response = await axios.patch<ReimbursementItem>(`${backendAddress}/reimbursements/update`, {id, status:newStatus});
+            if(!response || response.status !== 200) {
+                alert('There was an error fetching reimbursements form the server.');
+                return;
+            }
+            navigation.pop();
+            navigation.pop();
+            navigation.push('ReimbursementList', {id:employeeId})
+            navigation.push('Reimbursement')
+        } catch (error) {
+            console.log(error);
+            alert('There was an error communicating with the server.')              
+        }
+    }    
 
     return (<View style={{flex:1, flexDirection:"row", justifyContent:"space-evenly"}}>
         <View style={{flex:0.4}}>
@@ -29,8 +50,12 @@ export default function ReimbursementView(props:{reimbursement:ReimbursementItem
             <Text style={textStyle.td}>{id}</Text>
             <Text style={textStyle.td}>{employeeId}</Text>
             {isPending && <View style={{flex:1}}>
-                <View style={{flex:0.5, height:"100%", width:"100%"}}><Button title="Approve" onPress={() => {}}/></View>
-                <View style={{flex:0.5}}><Button title="Deny" onPress={() =>{}}/></View>
+                <View style={{flex:0.5, height:"100%", width:"100%"}}>
+                    <Button title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
+                </View>
+                <View style={{flex:0.5, height:"100%", width:"100%"}}>
+                    <Button title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
+                </View>
             </View>}
         </View>
     </View>)

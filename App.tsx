@@ -21,7 +21,6 @@ export default function App() {
     (async () => {
       const storedId = await AsyncStorageLib.getItem("managerId");
       setManagerId(storedId ?? "");
-      console.log(managerId);
     })()
   }, []);
 
@@ -39,7 +38,7 @@ export default function App() {
               {(props) => <ManagedView {...props} managerId={managerId}/>}
             </Stack.Screen>
             <Stack.Screen name={"ReimbursementList"}>
-              {(props) => <ReimbursementViewList {...props} setReimbursementList={setReimbursementList} setListIndex={setListIndex}/>}
+              {(props) => <ReimbursementViewList {...props} reimbursementList={reimbursementList} setReimbursementList={setReimbursementList} setListIndex={setListIndex}/>}
             </Stack.Screen>
             <Stack.Screen name={"Reimbursement"}>
               {(props) => <ReimbursementView {...props} reimbursement={reimbursementList[listIndex]}/>}
