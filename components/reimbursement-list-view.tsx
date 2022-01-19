@@ -36,7 +36,7 @@ export default function ReimbursementViewList(props:{navigation:any, route: any,
     }
 
     return (<FlatList data={reimbursementList} keyExtractor={item => item.id} renderItem={({item, index}) => (
-        <Pressable onPress={() => navigateToReimbursement(index)}>
+        <Pressable style={{margin:"1.5%"}} onPress={() => navigateToReimbursement(index)}>
             <ReimbursementListItem {...item}/>
         </Pressable>
     )}/>)

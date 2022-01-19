@@ -34,10 +34,10 @@ export default function App() {
         <NavigationContainer>
           <LogoutButton setManagerId={setManagerId}/>
           <Stack.Navigator initialRouteName='Managed' >
-            <Stack.Screen name={"Managed"}>
+            <Stack.Screen name={"Managed"} options={{title:"Employees"}}>
               {(props) => <ManagedView {...props} managerId={managerId}/>}
             </Stack.Screen>
-            <Stack.Screen name={"ReimbursementList"}>
+            <Stack.Screen name={"ReimbursementList"} options={(props:{ route:any }) => ({ title: props.route?.params?.title ?? "" })}>
               {(props) => <ReimbursementViewList {...props} reimbursementList={reimbursementList} setReimbursementList={setReimbursementList} setListIndex={setListIndex}/>}
             </Stack.Screen>
             <Stack.Screen name={"Reimbursement"}>

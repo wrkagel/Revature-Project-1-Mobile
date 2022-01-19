@@ -1,4 +1,3 @@
-import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
@@ -44,8 +43,8 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
         <View style={{flex:0.6}}>
             <Text style={textStyle.td}>{type}</Text>
             <Text style={textStyle.td}>{desc}</Text>
-            <Text style={textStyle.td}>{amount}</Text>
-            <Text style={textStyle.td}>{date}</Text>
+            <Text style={textStyle.td}>${amount}</Text>
+            <Text style={textStyle.td}>{new Date(date).toDateString()}</Text>
             <Text style={textStyle.td}>{status}</Text>
             <Text style={textStyle.td}>{id}</Text>
             <Text style={textStyle.td}>{employeeId}</Text>
