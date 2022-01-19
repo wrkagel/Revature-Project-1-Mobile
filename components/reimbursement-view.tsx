@@ -38,7 +38,7 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
             <Text style={textStyle.th}>Status</Text>
             <Text style={textStyle.th}>ID</Text>
             <Text style={textStyle.th}>EmployeeID</Text>
-            {isPending && <Text style={textStyle.th}>Status Update</Text>}
+            <Text style={textStyle.th}>Status Update</Text>
         </View>
         <View style={{flex:0.6}}>
             <Text style={textStyle.td}>{type}</Text>
@@ -50,15 +50,15 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
             <Text style={textStyle.td}>{employeeId}</Text>
             {isPending ? <View style={{flex:1}}>
                 <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                    <Button title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
+                    <Button color={"#fc3939"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
                 </View>
                 <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                    <Button title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
+                    <Button color={"#13b955"} title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
                 </View>
             </View>
             :
-            <View style={{flex:1, height:"100%", width:"100%"}}>
-                <Button title="Set Pending" onPress={() => updateStatus(ReimbursementStatus.pending)}/>
+            <View style={{flex:1, justifyContent:"center"}}>
+                <Button color={"#593196"} title="Set Pending" onPress={() => updateStatus(ReimbursementStatus.pending)}/>
             </View>}
         </View>
     </View>)

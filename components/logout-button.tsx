@@ -11,6 +11,6 @@ export default function LogoutButton(props:{setManagerId:Function}) {
     }
 
     return (<View>
-        <Button title="Logout" onPress={logout}/>
+        <Button color={"#593196"} title="Logout" onPress={logout}/>
     </View>)
 }

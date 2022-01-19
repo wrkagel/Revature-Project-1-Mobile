@@ -43,7 +43,7 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
 const styles = StyleSheet.create({
     listItem:{
         flex:1,
-        backgroundColor:"cyan",  
+        backgroundColor:"#009cdc",  
         borderWidth:3, 
         width:"100%",
         borderStyle:"solid",

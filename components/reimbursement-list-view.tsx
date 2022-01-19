@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, Pressable} from "react-native";
 import ReimbursementItem from "../models/reimbursement-item";
 import { backendAddress } from "./login-view";
@@ -10,6 +10,7 @@ export default function ReimbursementViewList(props:{navigation:any, route: any,
 
     const {navigation, route, reimbursementList, setReimbursementList, setListIndex} = props;
     const {id} = route.params;
+    const [show, setShow] = useState<boolean>(false);
 
     useEffect(() => {
         (async () => {
@@ -25,7 +26,7 @@ export default function ReimbursementViewList(props:{navigation:any, route: any,
                 console.log(error);
                 alert('There was an error communicating with the server.')              
             }
-
+            setShow(true);
         })()
     },[]);
 
@@ -35,7 +36,7 @@ export default function ReimbursementViewList(props:{navigation:any, route: any,
         navigation.push('Reimbursement');
     }
 
-    return (<FlatList data={reimbursementList} keyExtractor={item => item.id} renderItem={({item, index}) => (
+    return (show && <FlatList data={reimbursementList} keyExtractor={item => item.id} renderItem={({item, index}) => (
         <Pressable style={{margin:"1.5%"}} onPress={() => navigateToReimbursement(index)}>
             <ReimbursementListItem {...item}/>
         </Pressable>

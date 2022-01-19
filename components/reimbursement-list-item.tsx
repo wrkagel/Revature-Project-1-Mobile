@@ -6,7 +6,7 @@ export default function ReimbursementListItem(props:ReimbursementItem) {
 
     const {type, desc, amount, date, status, id} = props;
 
-    return (<View style={{flex:1, backgroundColor:"cyan", borderStyle:"solid", borderWidth:3, borderRadius:20}}>
+    return (<View style={{flex:1, backgroundColor:"#009cdc", borderStyle:"solid", borderWidth:3, borderRadius:20}}>
         <View style={{flex:1, flexDirection:"row", borderStyle:"solid", borderBottomWidth:3}}>
             <Text style={{...styles.listText, flex:0.2}}>{type}:</Text>
             <Text style={{...styles.listText, flex:0.8}}>{desc}</Text>
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     listText: {
         flex:1,
         textAlign:'center',
-        fontSize:20
+        fontSize:20,
+        color:"#fff"
     }
 })
