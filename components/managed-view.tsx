@@ -33,7 +33,7 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
         navigation.push('ReimbursementList', {id, title});
     }
 
-    return(<FlatList style={{flex:1}} keyExtractor={item => item.id} data={employees} renderItem={({item})=>(
+    return(<FlatList keyExtractor={item => item.id} data={employees} renderItem={({item})=>(
         <Pressable style={styles.listItem} onPress={() => navigateToReimburseList(item.id, `${item.fname}${item.mname ? ` ${item.mname}`:""}${item.lname ? ` ${item.lname}`:""}`)}>
             <EmployeeView {...item}/>
         </Pressable>)}/>
@@ -42,13 +42,12 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
 
 const styles = StyleSheet.create({
     listItem:{
-        flex:1,
         backgroundColor:"#009cdc",  
         borderWidth:3, 
-        width:"100%",
         borderStyle:"solid",
         borderRadius:20,
         margin:"1.5%",
-        padding:"5%"
+        padding:"5%",
+        marginRight:"1.5%"
     }
 })

@@ -1,7 +1,7 @@
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useState } from "react";
-import { Button, StyleSheet, TextInput, View } from "react-native";
+import { Text, Pressable, StyleSheet, TextInput, View } from "react-native";
 import Employee from "../models/employee";
 
 
@@ -37,15 +37,15 @@ export default function LoginView(props:{setManagerId:Function}) {
     return (<View style={{padding:"5%"}}>
         <TextInput style={styles.inputText} placeholder="username" onChangeText={setNameInput} autoCapitalize="none"/>
         <TextInput style={styles.inputText} placeholder="password" onChangeText={setPassInput} secureTextEntry={true} autoCapitalize="none"/>
-        <Button color={"#593196"} title="Login" onPress={login}/>
+        <Pressable style={{height:50, backgroundColor:"#593196", borderRadius:20, justifyContent:"center"}} onPress={login}><Text style={{...styles.inputText, textAlign:"center", color:"#fff", marginBottom:undefined}}>Login</Text></Pressable>
     </View>)
 }
 
 const styles = StyleSheet.create({
     inputText:{
         marginBottom:"5%",
-        fontSize:20
+        fontSize:25
     }
 });
 
-export const backendAddress = 'https://wk-revature-vm.eastus.cloudapp.azure.com';
+export const backendAddress = 'https://wk-reimbursements-backend.azurewebsites.net';
