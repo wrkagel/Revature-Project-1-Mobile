@@ -10,8 +10,6 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
     const {navigation} = props;
     const {id, employeeId, type, desc, amount, date, status} = props.reimbursement;
 
-    const isPending = status === ReimbursementStatus.pending;
-
     async function updateStatus(newStatus:ReimbursementStatus) {
         try {
             const response = await axios.patch<ReimbursementItem>(`${backendAddress}/reimbursements/update`, {id, status:newStatus});
@@ -27,7 +25,42 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
             console.log(error);
             alert('There was an error communicating with the server.')              
         }
-    }    
+    }
+    
+    function managerButtons() {
+        switch(status) {
+            case ReimbursementStatus.pending: {
+                return (
+                    <View style={{flex:1}}>
+                        <View style={{flex:0.5, height:"100%", width:"100%"}}>
+                            <Button color={"#fc3939"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
+                        </View>
+                        <View style={{flex:0.5, height:"100%", width:"100%"}}>
+                            <Button color={"#13b955"} title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
+                        </View>
+                    </View>
+                )
+            }
+            case ReimbursementStatus.approved:
+            case ReimbursementStatus.denied: {
+                return (
+                    <View style={{flex:1, justifyContent:"center"}}>
+                        <Button color={"#593196"} title="Set Pending" onPress={() => updateStatus(ReimbursementStatus.pending)}/>
+                    </View>
+                )
+            }
+            case ReimbursementStatus.paid: {
+                return (
+                    <View style={{flex:1, justifyContent:"center", alignContent:"center"}}>
+                        <Text style={{fontSize:20, textAlign:"center", textAlignVertical:"center", height:30, backgroundColor:"lightgrey"}}>Paid</Text>
+                    </View>
+                )
+            }
+            default:{
+                console.log("Error with reimbursement status. Reached default in switch in reimbursement-view.tsx.");
+            }
+        }
+    }
 
     return (<View style={{flex:1, flexDirection:"row", justifyContent:"space-evenly"}}>
         <View style={{flex:0.4}}>
@@ -48,18 +81,7 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
             <Text style={textStyle.td}>{status}</Text>
             <Text style={textStyle.td}>{id}</Text>
             <Text style={textStyle.td}>{employeeId}</Text>
-            {isPending ? <View style={{flex:1}}>
-                <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                    <Button color={"#fc3939"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
-                </View>
-                <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                    <Button color={"#13b955"} title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
-                </View>
-            </View>
-            :
-            <View style={{flex:1, justifyContent:"center"}}>
-                <Button color={"#593196"} title="Set Pending" onPress={() => updateStatus(ReimbursementStatus.pending)}/>
-            </View>}
+            {managerButtons()}
         </View>
     </View>)
 }

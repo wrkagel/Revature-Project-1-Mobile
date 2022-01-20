@@ -1,5 +1,5 @@
 export enum ReimbursementStatus {
-    pending = "pending", approved = "approved", denied = "denied"
+    pending = "pending", approved = "approved", denied = "denied", paid = "paid"
 }
 
 /** 
