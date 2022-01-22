@@ -5,9 +5,9 @@ import ReimbursementItem, { ReimbursementStatus } from "../models/reimbursement-
 import { backendAddress } from "./login-view";
 
 
-export default function ReimbursementView(props:{navigation:any, reimbursement:ReimbursementItem}) {
+export default function ReimbursementView(props:{reimbursement:ReimbursementItem, updateReimbursement:Function}) {
 
-    const {navigation} = props;
+    const {updateReimbursement, reimbursement} = props;
     const {id, employeeId, type, desc, amount, date, status} = props.reimbursement;
 
     async function updateStatus(newStatus:ReimbursementStatus) {
@@ -17,17 +17,15 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
                 alert('There was an error fetching reimbursements form the server.');
                 return;
             }
-            navigation.pop();
-            navigation.pop();
-            navigation.push('ReimbursementList', {id:employeeId})
-            navigation.push('Reimbursement')
+            reimbursement.status = newStatus;
+            updateReimbursement(reimbursement);
         } catch (error) {
             console.log(error);
-            alert('There was an error communicating with the server.')              
+            alert('There was an error communicating with the server.');
         }
     }
     
-    function managerButtons() {
+    const ManagerButtons = () => {
         switch(status) {
             case ReimbursementStatus.pending: {
                 return (
@@ -60,6 +58,7 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
                 console.log("Error with reimbursement status. Reached default in switch in reimbursement-view.tsx.");
             }
         }
+        return null;
     }
 
     return (<View style={{flex:1, flexDirection:"row", justifyContent:"space-evenly"}}>
@@ -81,7 +80,7 @@ export default function ReimbursementView(props:{navigation:any, reimbursement:R
             <Text style={textStyle.td}>{status}</Text>
             <Text style={textStyle.td}>{id}</Text>
             <Text style={textStyle.td}>{employeeId}</Text>
-            {managerButtons()}
+            {<ManagerButtons/>}
         </View>
     </View>)
 }

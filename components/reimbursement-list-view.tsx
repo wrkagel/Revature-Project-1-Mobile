@@ -30,8 +30,7 @@ export default function ReimbursementViewList(props:{navigation:any, route: any,
         })()
     },[]);
 
-    async function navigateToReimbursement(index:number) {
-
+    function navigateToReimbursement(index:number) {
         setListIndex(index);
         navigation.push('Reimbursement');
     }

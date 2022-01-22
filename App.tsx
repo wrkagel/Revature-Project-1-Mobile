@@ -26,6 +26,11 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
 
+  function updateReimbursement(reimbursement:ReimbursementItem) {
+    reimbursementList[listIndex] = reimbursement;
+    setReimbursementList([...reimbursementList]); 
+  }
+
   return (
     <View style={{flex:1, display:"flex"}}>
       <Text style={{fontSize:30, fontWeight:"bold"}}>Reimbursement System</Text>
@@ -41,7 +46,7 @@ export default function App() {
               {(props) => <ReimbursementViewList {...props} reimbursementList={reimbursementList} setReimbursementList={setReimbursementList} setListIndex={setListIndex}/>}
             </Stack.Screen>
             <Stack.Screen name={"Reimbursement"}>
-              {(props) => <ReimbursementView {...props} reimbursement={reimbursementList[listIndex]}/>}
+              {(props) => <ReimbursementView {...props} reimbursement={reimbursementList[listIndex]} updateReimbursement={updateReimbursement}/>}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>}

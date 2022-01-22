@@ -12,6 +12,8 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
 
     const [employees, setEmployees] = useState<Employee[]>();
 
+    const [show, setShow] = useState<boolean>(false);
+
     useEffect(() => {
         (async () => {
             try {
@@ -21,7 +23,8 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
                     return;
                 }
                 const returnedEmployees = response.data;
-                setEmployees(returnedEmployees)                
+                setEmployees(returnedEmployees);
+                setShow(true);          
             } catch (error) {
                 console.log(error);
                 alert('There was an error communication with the server.');
@@ -33,11 +36,12 @@ export default function ManagedView(props:{navigation: any, route:any, managerId
         navigation.push('ReimbursementList', {id, title});
     }
 
-    return(<FlatList keyExtractor={item => item.id} data={employees} renderItem={({item})=>(
+    return(show ? <FlatList keyExtractor={item => item.id} data={employees} renderItem={({item})=>(
         <Pressable style={styles.listItem} onPress={() => navigateToReimburseList(item.id, `${item.fname}${item.mname ? ` ${item.mname}`:""}${item.lname ? ` ${item.lname}`:""}`)}>
             <EmployeeView {...item}/>
         </Pressable>)}/>
-    )
+        :
+        <></>)
 }
 
 const styles = StyleSheet.create({
