@@ -32,20 +32,20 @@ export default function App() {
   }
 
   return (
-    <View style={{flex:1, display:"flex"}}>
+    <View style={{flex:1, display:"flex", backgroundColor:"#02F687"}}>
       <Text style={{fontSize:30, fontWeight:"bold"}}>Reimbursement System</Text>
       {!Boolean(managerId) ? 
         <LoginView setManagerId={setManagerId}/> :
         <NavigationContainer>
           <LogoutButton setManagerId={setManagerId}/>
-          <Stack.Navigator initialRouteName='Managed' >
-            <Stack.Screen name={"Managed"} options={{title:"Employees"}}>
+          <Stack.Navigator initialRouteName='Managed'>
+            <Stack.Screen name={"Managed"} options={{title:"Employees", headerStyle:{backgroundColor:"#02F687"}}}>
               {(props) => <ManagedView {...props} managerId={managerId}/>}
             </Stack.Screen>
-            <Stack.Screen name={"ReimbursementList"} options={(props:{ route:any }) => ({ title: props.route?.params?.title ?? "" })}>
+            <Stack.Screen name={"ReimbursementList"} options={(props:{ route:any }) => ({ title: props.route?.params?.title ?? "" , headerStyle:{backgroundColor:"#02F687"}})}>
               {(props) => <ReimbursementViewList {...props} reimbursementList={reimbursementList} setReimbursementList={setReimbursementList} setListIndex={setListIndex}/>}
             </Stack.Screen>
-            <Stack.Screen name={"Reimbursement"}>
+            <Stack.Screen name={"Reimbursement"} options={{headerStyle:{backgroundColor:"#02F687"}}}>
               {(props) => <ReimbursementView {...props} reimbursement={reimbursementList[listIndex]} updateReimbursement={updateReimbursement}/>}
             </Stack.Screen>
           </Stack.Navigator>
@@ -54,3 +54,4 @@ export default function App() {
     </View>
   );
 }
+

@@ -31,10 +31,10 @@ export default function ReimbursementView(props:{reimbursement:ReimbursementItem
                 return (
                     <View style={{flex:1}}>
                         <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                            <Button color={"#fc3939"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
+                            <Button color={"#13b955"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
                         </View>
                         <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                            <Button color={"#13b955"} title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
+                            <Button color={"#fc3939"} title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
                         </View>
                     </View>
                 )
@@ -61,7 +61,7 @@ export default function ReimbursementView(props:{reimbursement:ReimbursementItem
         return null;
     }
 
-    return (<View style={{flex:1, flexDirection:"row", justifyContent:"space-evenly"}}>
+    return (<View style={{flex:1, flexDirection:"row", justifyContent:"space-evenly", backgroundColor:"#02F687"}}>
         <View style={{flex:0.4}}>
             <Text style={textStyle.th}>Type</Text>
             <Text style={textStyle.th}>Description</Text>
