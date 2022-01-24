@@ -1,6 +1,6 @@
 import AsyncStorageLib from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { Text, View } from 'react-native';
@@ -24,7 +24,7 @@ export default function App() {
     })()
   }, []);
 
-  const Stack = createNativeStackNavigator();
+  const Stack = createStackNavigator();
 
   function updateReimbursement(reimbursement:ReimbursementItem) {
     reimbursementList[listIndex] = reimbursement;
@@ -38,14 +38,16 @@ export default function App() {
         <LoginView setManagerId={setManagerId}/> :
         <NavigationContainer>
           <LogoutButton setManagerId={setManagerId}/>
-          <Stack.Navigator initialRouteName='Managed'>
-            <Stack.Screen name={"Managed"} options={{title:"Employees", headerStyle:{backgroundColor:"#02F687"}}}>
+          <Stack.Navigator initialRouteName='Managed' screenOptions={{
+            headerStyle:{backgroundColor:"#02F687"}, 
+            cardStyle:{opacity:1, backgroundColor:"#02F687"}}}>
+            <Stack.Screen name={"Managed"} options={{title:"Employees"}}>
               {(props) => <ManagedView {...props} managerId={managerId}/>}
             </Stack.Screen>
-            <Stack.Screen name={"ReimbursementList"} options={(props:{ route:any }) => ({ title: props.route?.params?.title ?? "" , headerStyle:{backgroundColor:"#02F687"}})}>
+            <Stack.Screen name={"ReimbursementList"} options={(props:{ route:any }) => ({ title: props.route?.params?.title ?? "" })}>
               {(props) => <ReimbursementViewList {...props} reimbursementList={reimbursementList} setReimbursementList={setReimbursementList} setListIndex={setListIndex}/>}
             </Stack.Screen>
-            <Stack.Screen name={"Reimbursement"} options={{headerStyle:{backgroundColor:"#02F687"}}}>
+            <Stack.Screen name={"Reimbursement"}>
               {(props) => <ReimbursementView {...props} reimbursement={reimbursementList[listIndex]} updateReimbursement={updateReimbursement}/>}
             </Stack.Screen>
           </Stack.Navigator>

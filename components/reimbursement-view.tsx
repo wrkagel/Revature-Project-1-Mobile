@@ -31,7 +31,7 @@ export default function ReimbursementView(props:{reimbursement:ReimbursementItem
                 return (
                     <View style={{flex:1}}>
                         <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                            <Button color={"#13b955"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
+                            <Button color={"#008C00"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
                         </View>
                         <View style={{flex:0.5, height:"100%", width:"100%"}}>
                             <Button color={"#fc3939"} title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
