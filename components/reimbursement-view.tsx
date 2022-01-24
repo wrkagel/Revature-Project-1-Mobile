@@ -1,5 +1,7 @@
 import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import ReimbursementItem, { ReimbursementStatus } from "../models/reimbursement-item";
 import { backendAddress } from "./login-view";
@@ -10,20 +12,34 @@ export default function ReimbursementView(props:{reimbursement:ReimbursementItem
     const {updateReimbursement, reimbursement} = props;
     const {id, employeeId, type, desc, amount, date, status} = props.reimbursement;
 
-    async function updateStatus(newStatus:ReimbursementStatus) {
-        try {
-            const response = await axios.patch<ReimbursementItem>(`${backendAddress}/reimbursements/update`, {id, status:newStatus});
-            if(!response || response.status !== 200) {
-                alert('There was an error fetching reimbursements form the server.');
-                return;
+    const [updateStatus, setUpdateStatus] = useState<ReimbursementStatus>();
+
+    useEffect(() => {
+        if(!updateStatus) return;
+        const controller = new AbortController();
+        (
+            async () => {
+                try {
+                    const response = await axios.patch<ReimbursementItem>(
+                        `${backendAddress}/reimbursements/update`, 
+                        {id, status:updateStatus}, 
+                        {signal:controller.signal});
+                    if(!response || response.status !== 200) {
+                        alert('There was an error fetching reimbursements form the server.');
+                        return;
+                    }
+                    reimbursement.status = updateStatus;
+                    updateReimbursement(reimbursement);
+                } catch (error) {
+                    console.log(error);
+                    alert('There was an error communicating with the server.');
+                }
             }
-            reimbursement.status = newStatus;
-            updateReimbursement(reimbursement);
-        } catch (error) {
-            console.log(error);
-            alert('There was an error communicating with the server.');
+        )();
+        return () => {
+            controller.abort();
         }
-    }
+    } ,[updateStatus])
     
     const ManagerButtons = () => {
         switch(status) {
@@ -31,10 +47,10 @@ export default function ReimbursementView(props:{reimbursement:ReimbursementItem
                 return (
                     <View style={{flex:1}}>
                         <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                            <Button color={"#008C00"} title="Approve" onPress={() => updateStatus(ReimbursementStatus.approved)}/>
+                            <Button color={"#008C00"} title="Approve" onPress={() => setUpdateStatus(ReimbursementStatus.approved)}/>
                         </View>
                         <View style={{flex:0.5, height:"100%", width:"100%"}}>
-                            <Button color={"#fc3939"} title="Deny" onPress={() => updateStatus(ReimbursementStatus.denied)}/>
+                            <Button color={"#fc3939"} title="Deny" onPress={() => setUpdateStatus(ReimbursementStatus.denied)}/>
                         </View>
                     </View>
                 )
@@ -43,7 +59,7 @@ export default function ReimbursementView(props:{reimbursement:ReimbursementItem
             case ReimbursementStatus.denied: {
                 return (
                     <View style={{flex:1, justifyContent:"center"}}>
-                        <Button color={"#593196"} title="Set Pending" onPress={() => updateStatus(ReimbursementStatus.pending)}/>
+                        <Button color={"#593196"} title="Set Pending" onPress={() => setUpdateStatus(ReimbursementStatus.pending)}/>
                     </View>
                 )
             }
