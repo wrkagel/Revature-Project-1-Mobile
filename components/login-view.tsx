@@ -57,7 +57,7 @@ export default function LoginView(props:{setManagerId:Function}) {
     return (<View style={{padding:"5%"}}>
         <TextInput style={styles.inputText} placeholder="username" onChangeText={setNameInput} autoCapitalize="none"/>
         <TextInput style={styles.inputText} placeholder="password" onChangeText={setPassInput} secureTextEntry={true} autoCapitalize="none"/>
-        <Pressable style={styles.pressable} onPress={() => setLoginClick({...loginClick})}><Text style={{...styles.inputText, textAlign:"center", color:"#fff", marginBottom:undefined}}>Login</Text></Pressable>
+        <Pressable accessibilityRole="button" style={styles.pressable} onPress={() => setLoginClick({...loginClick})}><Text style={{...styles.inputText, textAlign:"center", color:"#fff", marginBottom:undefined}}>Login</Text></Pressable>
     </View>)
 }
 
