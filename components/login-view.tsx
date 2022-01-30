@@ -1,9 +1,10 @@
 import AsyncStorageLib from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Text, Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Text, Pressable, StyleSheet, TextInput, View, Alert } from "react-native";
 import Employee from "../models/employee";
 
+const alert = Alert.alert;
 
 export default function LoginView(props:{setManagerId:Function}) {
 
@@ -35,7 +36,7 @@ export default function LoginView(props:{setManagerId:Function}) {
                 } catch (error) {
                     console.log(error);
                     if(error instanceof Error && error.message.includes("404")) {
-                        alert("No matching username and password found.");
+                        alert("No matching username and password found.", "No");
                     } else {
                         alert('There was an error communicating with the server.');
                     }
